@@ -21,34 +21,48 @@ def BigCross1(M, m):
 
 def CheckCenter1(M, center):
     distance = 1
-    length = 0
-    # if can make at least one step, check how many steps can be made
-    hor_valid = Cover1(M, center, distance, "horizontal")
-    ver_valid = Cover1(M, center, distance, "vertical")
-
-    if hor_valid and ver_valid:
+    length = -1
+    if center == [6, 3]:
+        print("left: {0} up: {1} right: {2} down: {3} ".format(center[1] - distance,
+                                                               center[0] - distance,
+                                                               center[1] + distance,
+                                                               center[0] + distance))
+    valid = Cover1(M, center, distance)
+    while valid:
+        if center == [6, 3]:
+            print("left: {0} up: {1} right: {2} down: {3} ".format(center[1] - distance,
+                                                                   center[0] - distance,
+                                                                   center[1] + distance,
+                                                                   center[0] + distance))
+        valid = Cover1(M, center, distance)
+        if center == [6, 3]:
+            print("and therefor is valid:" + str(valid))
         distance += 1
-        while hor_valid or ver_valid:
-            if hor_valid:
-                if not Cover1(M, center, distance, "horizontal"):
-                    hor_valid = False
-            if ver_valid:
-                if not Cover1(M, center, distance, "vertical"):
-                    ver_valid = False
-            distance += 1
-            length += 1
+        if center == [6, 3]:
+            print("before increase:" + str(length))
+        length += 1
+
+        if center == [6, 3]:
+            print("after increase:" + str(length))
     return length
 
 
-def Cover1(M, center, distance, direction):
-    if direction == "horizontal":
-        if (center[1] - distance >= 0) and (center[1] + distance < len(M)):
-            if (M[center[0]][center[1] - distance] == 1 and
-                    M[center[0]][center[1] + distance] == 1):
-                return True
-    if direction == "vertical":
-        if (center[0] - distance >= 0) and (center[0] + distance < len(M)):
-            if (M[center[0] - distance][center[1]] == 1 and
-                    M[center[0] + distance][center[1]] == 1):
-                return True
+def Cover1(M, center, distance):
+    if (center[1] - distance >= 0 and
+            center[1] + distance < len(M) and
+            center[0] - distance >= 0 and
+            center[0] + distance < len(M)):
+        if (M[center[0]][center[1] - distance] == 1 and
+                M[center[0]][center[1] + distance] == 1 and
+                M[center[0] - distance][center[1]] == 1 and
+                M[center[0] + distance][center[1]] == 1):
+            if center == [6, 3]:
+                print("left: {0} up: {1} right: {2} down: {3} ".format(M[center[0]][center[1] - distance],
+                                                                       M[center[0] - distance][center[1]],
+                                                                       M[center[0]][center[1] + distance],
+                                                                       M[center[0] + distance][center[1]]))
+            return True
+    else:
+        if center == [6, 3]:
+            print("out of borders")
     return False
